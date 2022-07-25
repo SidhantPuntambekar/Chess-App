@@ -1,10 +1,51 @@
+package com.chess.engine.board;
+
+import com.chess.engine.pieces.Piece;
+import com.google.common.collect.ImmutableMap;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class Tile {
     private int tileNum; // Each tile (64 in total), represented by an identifying number
+    private static final Map<Integer, emptyTile> emptyTileMap = createEmptyTiles(); // Create map that tracks all empty tiles
 
     /* Tile Constructor */
     public Tile(int tileNum)
     {
         this.tileNum = tileNum;
+    }
+
+    /* Getter for tileNum */
+    public int getTileNum() { return tileNum; }
+
+    /* Setter for tileNum */
+    public void setTileNum(int newTileNum) { tileNum = newTileNum; }
+
+    /* Create Map between each tile number and the tile itself for tracking purposes */
+    private static Map<Integer, emptyTile> createEmptyTiles() {
+        final Map<Integer, emptyTile> emptyTileMap = new HashMap<>();
+        int numChessBoardSquares = 64;
+
+        for (int i = 0; i < numChessBoardSquares; i++)
+        {
+            emptyTileMap.put(i, new emptyTile(i));
+        }
+
+        return ImmutableMap.copyOf(emptyTileMap); // Immutable map from Guava library
+    }
+
+    /* Create Tile Method */
+    public static Tile createTile(final int tileNum, final Piece piece)
+    {
+        if (piece != null)
+        {
+            return new occupiedTile(tileNum, piece);
+        }
+        else
+        {
+            return emptyTileMap.get(tileNum);
+        }
     }
 
     /* Public abstract method to determine if tile is occupied by a piece */
@@ -37,7 +78,7 @@ public abstract class Tile {
     /* Occupied tile class */
     public static final class occupiedTile extends Tile
     {
-        private Piece occupiedPiece; // Create private reference to piece occupying tile
+        private final Piece occupiedPiece; // Create private reference to piece occupying tile. Immutable to ensure same piece is being moved
         /* Occupied Tile Constructor */
         public occupiedTile(int tileNum, Piece occupiedPiece)
         {
