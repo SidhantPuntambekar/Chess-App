@@ -25,9 +25,8 @@ public abstract class Tile {
     /* Create Map between each tile number and the tile itself for tracking purposes */
     private static Map<Integer, emptyTile> createEmptyTiles() {
         final Map<Integer, emptyTile> emptyTileMap = new HashMap<>();
-        int numChessBoardSquares = 64;
 
-        for (int i = 0; i < numChessBoardSquares; i++)
+        for (int i = 0; i < BoardUtils.NUM_TILES; i++)
         {
             emptyTileMap.put(i, new emptyTile(i));
         }
@@ -80,7 +79,7 @@ public abstract class Tile {
     {
         private final Piece occupiedPiece; // Create private reference to piece occupying tile. Immutable to ensure same piece is being moved
         /* Occupied Tile Constructor */
-        public occupiedTile(int tileNum, Piece occupiedPiece)
+        public occupiedTile(int tileNum, final Piece occupiedPiece)
         {
             super(tileNum);
             this.occupiedPiece = occupiedPiece;

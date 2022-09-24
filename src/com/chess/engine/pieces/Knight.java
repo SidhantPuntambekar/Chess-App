@@ -6,6 +6,7 @@ import com.chess.engine.board.BoardUtils;
 import com.chess.engine.board.Move;
 import com.chess.engine.board.Tile;
 import com.google.common.collect.ImmutableList;
+import com.chess.engine.board.Move;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,7 +52,7 @@ public class Knight extends Piece {
     }
 
     @Override
-    public Collection<Move> getLegalMoves(Board board) {
+    public Collection<Move> getLegalMoves(final Board board) {
 
         final ArrayList<Move> candidateLegalMoves = new ArrayList<Move>();
 
@@ -68,7 +69,7 @@ public class Knight extends Piece {
                 final Tile candidateDestTile = board.getTile(candidateDest);
                 if (!candidateDestTile.isOccupied())
                 {
-                    Move newLegalMove = new Move();
+                    Move newLegalMove = new Move.MajorPieceMove(board, this, candidateDest);
                     candidateLegalMoves.add(newLegalMove);
                 }
                 else
@@ -79,7 +80,7 @@ public class Knight extends Piece {
                     if (this.getTeam() != occupiedPieceTeam)
                     {
                         // capture
-                        Move newCaptureLegalMove = new Move();
+                        Move newCaptureLegalMove = new Move.MoveAttack(board, this, occupiedPiece, candidateDest);
                         candidateLegalMoves.add(newCaptureLegalMove);
                     }
                 }
