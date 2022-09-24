@@ -11,11 +11,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Bishop extends Piece
+public class Rook extends Piece
 {
-    private static int[] CANDIDATE_MOVE_VECTORS = {-9, -7, 7, 9};
 
-    public Bishop(int piecePosition, Team pieceTeam) {
+    private static int[] CANDIDATE_MOVE_VECTORS = {-8, -1, 1, 8};
+
+    public Rook(int piecePosition, Team pieceTeam) {
         super(piecePosition, pieceTeam);
     }
 
@@ -54,7 +55,7 @@ public class Bishop extends Piece
                             Move newCaptureLegalMove = new Move.MoveAttack(board, this, occupiedPiece, candidateDest);
                             candidateLegalMoves.add(newCaptureLegalMove);
                         }
-                        break; // Break the loop if the bishop slides to a new enemy piece and stop
+                        break; // Break the loop if the rook slides to a new enemy piece and stop
                     }
                 }
             }
@@ -64,11 +65,11 @@ public class Bishop extends Piece
 
     private static boolean isFirstColException(final int currentPos, int candidateOffset)
     {
-        return BoardUtils.FIRST_COLUMN[currentPos] && (candidateOffset == -9 || candidateOffset == 7);
+        return BoardUtils.FIRST_COLUMN[currentPos] && (candidateOffset == -1);
     }
 
     private static boolean isEightColException(final int currentPos, int candidateOffset)
     {
-        return BoardUtils.EIGHTH_COLUMN[currentPos] && (candidateOffset == 9 || candidateOffset == -7);
+        return BoardUtils.EIGHTH_COLUMN[currentPos] && (candidateOffset == 1);
     }
 }
